@@ -1,0 +1,6 @@
+folders:
+  root: "."
+  data: "data/"
+  results: "results/"
+workers:
+  number: 20
