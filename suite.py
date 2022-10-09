@@ -1,8 +1,10 @@
+from asyncio.log import logger
 from itertools import product
 from pathlib import Path
 import numpy as np
 import pandas as pd
 import os
+import logging
 
 from metrics import (
     Metric,
@@ -105,6 +107,7 @@ class Suite:
         ]
 
     def run(self):
+        logging.basicConfig(filename="suite.log", level = logging.INFO)
         data_folder = Path(self.config["folders"]["data"]) 
         fractions = np.arange(5, 100, 5)/100
 
@@ -112,6 +115,8 @@ class Suite:
 
         if os.path.exists("results/result.csv"):
             os.remove("results/result.csv")
+        else:
+            logging.info("creating result.csv")
                 
         validator = Validator()
 
@@ -140,6 +145,8 @@ class Suite:
                     rows.append([f.name, batch_number, col, df[col].dtype, np.NaN, metric.get_name(), metric_value, np.NaN])
 
                 for (error, fraction) in product(self.generators, fractions):
+
+                    logging.info(f"batch: {batch_number}, column: {col}, metric: {metric.get_name()}, error: {error.get_name()}, fraction: {fraction}")
 
                     if validator.check_error(error, df[col]) == True:
                         corrupted_col = error.corrupt(df[col], fraction)

@@ -3,6 +3,7 @@ import numpy as np
 from itertools import product
 from minepy import MINE
 from scipy.stats import variation
+import logging
 import os
 
 
@@ -62,12 +63,15 @@ errors = [
 batches = output["batch number"].unique().tolist()
 columns = output["column name"].unique().tolist()
 
+logging.basicConfig(filename="mic.log", level = logging.INFO)
+
 if os.path.exists("results/all_metric_error_mic.csv"):
     os.remove("results/all_metric_error_mic.csv")
 
 idx = 0
 
 for metric, error, column, batch in product(metrics, errors, columns, batches):
+    logging.info(f"batch: {batch}, column: {column}, metric: {metric}, error: {error}")
     row_to_write = []
     
     clean = output.loc[(output["error name"].isnull()) & (output["metric name"] == metric)]
@@ -82,8 +86,9 @@ for metric, error, column, batch in product(metrics, errors, columns, batches):
     # extraneous data problem with column type
     if len(clean) == 0:
         continue
-    # if error isn't applicable on metric
+    # if metric isn't applicable on error
     if batch_number.shape[0] == 0:
+        logging.info("metric is not applicable on error")
         continue
     column_type = batch_number["column type"].unique().tolist()[0]
     column_name = batch_number["column name"].unique().tolist()[0]
@@ -97,7 +102,7 @@ for metric, error, column, batch in product(metrics, errors, columns, batches):
     if idx == 0:
         df.to_csv("results/all_metric_error_mic.csv", mode = "a", header = ["metric", "error", "column", "type", "mic"], index = False)
     else:
-       df.to_csv("results/all_metric_error_mic.csv", header = None, mode = "a", index = False) 
+       df.to_csv("results/all_metric_error_mic.csv", header = None, mode = "a", index = False)
 
     idx += 1
 

@@ -2,8 +2,11 @@ import pandas as pd
 import numpy as np
 from itertools import product
 from scipy import stats
+import logging
 import os
 
+
+logging.basicConfig(filename="ks.log", level = logging.INFO)
 result = pd.read_csv("results/result.csv", sep = ",")
 
 fractions = result["fraction"].dropna().unique().tolist()
@@ -17,6 +20,7 @@ idx = 0
 
 for fraction in fractions:
     for metric, error in product(metrics, errors):
+        logging.info(f"metric: {metric}, error: {error}, fraction: {fraction}")
         clean_values = result.loc[(result["metric name"] == metric) & (result["error name"].isnull())]["metric value"]
         dirty_values = result.loc[(result["metric name"] == metric) & (result["fraction"] == fraction) & (result["error name"] == error)]["metric value"]
         if len(dirty_values) == 0 or len(clean_values) == 0:
@@ -30,7 +34,7 @@ for fraction in fractions:
         if idx == 0:
             df.to_csv("results/ks_test.csv", mode = "a", header = ["fraction", "metric", "error"], index = False)
         else:
-            df.to_csv("results/ks_test.csv", header = None, mode = "a", index = False) 
+            df.to_csv("results/ks_test.csv", header = None, mode = "a", index = False)
         
         idx += 1
 
