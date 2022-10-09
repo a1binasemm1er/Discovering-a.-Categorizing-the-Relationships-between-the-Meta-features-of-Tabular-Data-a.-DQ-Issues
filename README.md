@@ -21,18 +21,22 @@ For finding meta-features that are proxy to certain errors follow the steps:
       python main.py
    
    Output file is in results/result.csv
+   
    Log data is in suite.log
    
 3. Find all unique error-metric combinations with Kolmogorov-Smirnov test
       
       python ks_test.py   
    
-   Output is in results/ks_output.csv
+   Output is in results/ks_output.csv. The output contains detected combinations of DQ issues and meta-features along with the minimal value of corruption's proportion they were detected by.
+   
    Log data is in ks.log
    
 4. Find all unique error-metric combinations with MIC
       
       python finding_mic.py
    
-   Output is in results/unique_combinations_mic.csv
+   Output is in results/unique_combinations_mic.csv. The output contains detected combinations of DQ issues and meta-features.
+   
    Log data is in mic.log
+   
