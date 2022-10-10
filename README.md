@@ -8,7 +8,7 @@ Author: Albina Semmler
 
 Advisor: Sergey Redyuk
 
-Note: The number of data batches reduced to 5 for demonstration purposes. Full amount of batches leads to long execution time. Results gained with reduced number of batches can differ from results gained with initial amount. All batches can be found in folder "data full".
+Note: The number of data batches is reduced to 5 for demonstration purposes. Full amount of batches leads to long execution time. Results gained with reduced number of batches can differ from results gained with initial amount. All batches can be found in folder "data full".
 
 For finding meta-features that are proxy to certain errors follow the steps: 
 
