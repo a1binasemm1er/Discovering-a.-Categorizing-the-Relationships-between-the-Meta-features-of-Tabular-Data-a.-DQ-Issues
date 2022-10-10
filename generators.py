@@ -96,7 +96,7 @@ class Duplicates(ErrorGenerator):
         new_df = df.copy()
 
         for i, _ in random_subset.items():
-            if new_df.loc[i] != new_df.iloc[-1]: # not for the last row
+            if new_df.loc[i] != new_df.iloc[-1]:
                 new_df.loc[i+1] = new_df.loc[i]
         
         return new_df
@@ -158,9 +158,6 @@ class DeleteSpecialCharacters(ErrorGenerator):
         new_df = df.copy()
         old_chars = ["-", "/", "@", "€", ":"]
         new_char = ""
-
-        # if df.name == "Date":
-            # return new_df
 
         for i, _ in random_subset.items():
             value = new_df.loc[i]

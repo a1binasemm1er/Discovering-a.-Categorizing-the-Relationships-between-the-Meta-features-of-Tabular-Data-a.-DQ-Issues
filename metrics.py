@@ -374,8 +374,7 @@ class Distinct(Metric):
         name = self.__class__.__name__
         assert isinstance(df, pd.Series), f"{name} is a single-column metric"
 
-        # distinct = 1 ruins average value
-        # dropna for excluding the influense of missing values (explicit)
+        # dropna for excluding the influence of missing values (explicit)
         if df.dropna().nunique() == df.dropna().size:
             return 0
 
@@ -409,9 +408,6 @@ class Unsortedness(Metric):
                 except TypeError:
                     if str(new_df[i]) < str(new_df[min_idx]):
                         min_idx = i
-
-                # if new_df[i] < new_df[min_idx]:
-                #     min_idx = i
 
             (new_df[elem], new_df[min_idx]) = (new_df[min_idx], new_df[elem])
             if elem != min_idx:
